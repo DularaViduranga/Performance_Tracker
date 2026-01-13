@@ -1,0 +1,67 @@
+.card {
+  width: 300px;
+  height: 250px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: white;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-content {
+  padding: 20px;
+}
+
+.card-title {
+  margin: 0 0 10px 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.card-description {
+  margin: 0 0 15px 0;
+  color: #666;
+  line-height: 1.5;
+}
+
+.card-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.card-button:hover {
+  background-color: #0056b3;
+}
+
+.card-text {
+  color: #0d0d0e;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.icon-wrapper {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e1ebe4; /* Optional: adds a subtle background */
+}
+
+.card-icon {
+  font-size: 80px !important;  /* Use !important to override Material defaults */
+  width: 80px !important;
+  height: 80px !important;
+  color: #007bff;
+}

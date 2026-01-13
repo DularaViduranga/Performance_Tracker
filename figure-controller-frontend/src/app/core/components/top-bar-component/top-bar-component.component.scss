@@ -1,0 +1,15 @@
+// mat-toolbar {
+//   background-color: #2563eb !important;
+//   color: white !important;
+// }
+mat-toolbar {
+  background-color: #2563eb !important;
+  color: white !important;
+}
+
+@media (max-width: 768px) {
+  mat-toolbar {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}

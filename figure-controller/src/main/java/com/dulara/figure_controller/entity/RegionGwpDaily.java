@@ -1,0 +1,30 @@
+package com.dulara.figure_controller.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Entity
+@Table(name = "region_gwp_daily")
+public class RegionGwpDaily {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String regionCode;
+
+    private String regionName;
+
+    private BigDecimal currentMonthGwp;
+    private BigDecimal accumulatedGwp;
+
+    private LocalDate snapshotDate;
+
+}

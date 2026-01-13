@@ -1,0 +1,33 @@
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full animate-fade-in">
+  <h3 class="text-slate-500 text-sm font-medium mb-2">{{ label }}</h3>
+  <div class="flex items-baseline gap-2 mb-1">
+    @if (value !== null && value !== undefined) {
+      <span class="text-2xl font-bold text-[#1e3a8a]">
+        {{ value }}
+      </span>
+    } @else {
+      <!-- Loading placeholder -->
+      <span
+        class="h-7 w-20 rounded-md bg-slate-200 animate-pulse"
+        aria-hidden="true">
+      </span>
+    }
+  </div>
+
+  @if (trend !== undefined || subtext) {
+    <div class="mt-auto flex items-center gap-2 text-xs">
+      @if (trend !== undefined) {
+        <span class="flex items-center font-medium" [class.text-emerald-600]="trend >= 0" [class.text-rose-600]="trend < 0">
+          <lucide-icon
+            [name]="trend >= 0 ? 'ArrowUp' : 'ArrowDown'"
+            size="20">
+          </lucide-icon>
+          {{ trend | number:'1.0-1' }}%
+        </span>
+      }
+      @if (subtext) {
+        <span class="text-slate-400">{{ subtext }}</span>
+      }
+    </div>
+  }
+</div>

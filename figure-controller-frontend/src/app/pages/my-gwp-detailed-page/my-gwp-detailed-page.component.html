@@ -1,0 +1,61 @@
+<div class="mb-4">
+      <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+        <mat-icon class="text-blue-600 text-2xl">business_center</mat-icon>
+          Detailed Gross Written Premium (GWP)
+        </h1>
+    </div>
+
+  <!-- Filters -->
+    <div class="bg-white shadow-md rounded p-4 mb-4 flex flex-col lg:flex-row gap-4">
+
+      <!-- Class Code Dropdown -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Class Code</mat-label>
+        <mat-select [(ngModel)]="selectedClassCode" (selectionChange)="onClassChange()">
+          <mat-option *ngFor="let c of classCodes" [value]="c">{{ c }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Product Code Autocomplete -->
+      <mat-form-field appearance="fill" class="w-full" *ngIf="selectedClassCode !== 'ALL'">
+        <mat-label>Product</mat-label>
+        <input
+          type="text"
+          matInput
+          [(ngModel)]="productSearchText"
+          [matAutocomplete]="auto"
+          (ngModelChange)="filterProducts()"
+          placeholder="Search and select product...">
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="onProductSelected($event)"
+          [displayWith]="displayProduct">
+          <mat-option [value]="'ALL'">
+            <span class="font-semibold">ALL</span> - All Products
+          </mat-option>
+          <mat-option *ngFor="let p of filteredProducts" [value]="p">
+            <span class="font-semibold">{{ p.prdCode }}</span> - {{ p.prdDescription }}
+          </mat-option>
+          <mat-option *ngIf="filteredProducts.length === 0" disabled>
+            <span class="text-gray-500 italic">No products found</span>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <!-- Search Button -->
+      <button mat-raised-button
+              class="bg-blue-600 hover:bg-blue-700 text-white px-6 disabled:bg-gray-400"
+              [disabled]="isLoading"
+              (click)="onSearch()">
+        <mat-icon *ngIf="isLoading" class="animate-spin">refresh</mat-icon>
+        <span *ngIf="!isLoading">Search</span>
+        <span *ngIf="isLoading">Loading...</span>
+      </button>
+    </div>
+
+      <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+        <app-generic-table
+          [data]="tableData"
+          [config]="tableConfig">
+        </app-generic-table>
+      </div>

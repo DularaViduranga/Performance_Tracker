@@ -1,0 +1,31 @@
+<h2 mat-dialog-title class="flex items-center gap-2">
+  <mat-icon>trending_up</mat-icon>
+  Performance - {{ data.sfcCode }}
+  <span class="flex items-center gap-1 text-amber-600 text-sm font-normal ml-2">
+    <mat-icon class="text-base">warning</mat-icon>
+    <span>Select full month(s) for accurate performance</span>
+  </span>
+</h2>
+
+<mat-dialog-content class="max-w-4xl">
+  <div class="my-4 text-sm text-gray-600 font-medium">
+    Period: {{ formatDisplay(data.fromDate) }} – {{ formatDisplay(data.toDate) }}
+  </div>
+
+  <!-- Progress Bar - Only shown while loading -->
+  <div *ngIf="loading" class="mb-4">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+
+  <!-- Table - Only shown when not loading -->
+  <div *ngIf="!loading">
+    <app-generic-table
+      [data]="performanceData"
+      [config]="performanceTableConfig">
+    </app-generic-table>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

@@ -1,0 +1,151 @@
+<div class="generic-table-container">
+
+  <!-- ==================== DESKTOP TABLE ==================== -->
+  <div class="overflow-x-auto hidden md:block">
+    <table mat-table [dataSource]="dataSource" matSort class="w-full text-sm">
+
+      <!-- Dynamic Columns -->
+      <ng-container *ngFor="let column of config.columns" [matColumnDef]="column.key">
+        <th mat-header-cell *matHeaderCellDef
+            [mat-sort-header]="column.sortable !== false ? column.key : ''"
+            class="bg-blue-50 font-semibold text-gray-700 text-xs py-3 px-4"
+            [style.width]="column.width"
+            [ngClass]="'text-' + (column.align || 'left')">
+          {{ column.header }}
+        </th>
+
+        <td mat-cell *matCellDef="let row"
+            class="py-3 px-4 text-xs border-b"
+            [ngClass]="['text-' + (column.align || 'left'), getCellClass(row, column)]">
+          {{ formatValue(row[column.key], column) }}
+        </td>
+
+        <!-- ==================== FOOTER CELL ==================== -->
+        <td mat-footer-cell *matFooterCellDef
+            class="font-bold text-blue-600 py-3 px-4 text-xs"
+            [ngClass]="'text-' + (column.align || 'left')">
+          <ng-container *ngIf="config.footerColumns?.includes(column.key)">
+            {{ formatValue(getColumnTotal(column.key), column) }}
+          </ng-container>
+          <ng-container *ngIf="column.key === config.columns[0].key && config.showFooter">
+            <div class="flex flex-col">
+              <span class="text-gray-800 font-semibold">Total</span>
+              <span class="text-blue-700">
+                {{ formatCurrency(getGrandTotal()) }}
+              </span>
+            </div>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions" *ngIf="config.rowActions?.length">
+        <th mat-header-cell *matHeaderCellDef class="w-12"></th>
+        <td mat-cell *matCellDef="let row" class="px-2" (click)="$event.stopPropagation()">
+          <button mat-icon-button
+                  [matMenuTriggerFor]="actionsMenu"
+                  [matMenuTriggerData]="{ row: row }">
+            <mat-icon class="text-gray-500">more_vert</mat-icon>
+          </button>
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <!-- Header & Row Definitions -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+          [ngClass]="getRowClass(row)"
+          (click)="onRowClick(row)"
+          class="hover:bg-gray-50 cursor-pointer transition-colors">
+      </tr>
+
+      <!-- ==================== FIXED FOOTER ROW (CHANGE HERE) ==================== -->
+      <!-- Previously wrapped in *ngIf → removed -->
+      <tr mat-footer-row
+          *matFooterRowDef="displayedColumns"
+          class="bg-blue-50 font-bold border-t-4 border-blue-300"
+          [class.hidden]="!config.showFooter || data.length === 0">
+      </tr>
+      <!-- ==================== END FIX ==================== -->
+
+    </table>
+  </div>
+
+  <!-- ==================== MOBILE CARDS ==================== -->
+  <div class="md:hidden space-y-4">
+    <div *ngFor="let row of dataSource.data"
+         class="rounded-xl shadow-sm border border-gray-200 bg-white relative overflow-hidden"
+         [ngClass]="getRowClass(row)"
+         (click)="onRowClick(row)">
+
+      <button mat-icon-button
+              *ngIf="config.rowActions?.length"
+              class="absolute top-3 right-3 z-10 text-gray-500"
+              [matMenuTriggerFor]="actionsMenu"
+              [matMenuTriggerData]="{ row: row }"
+              (click)="$event.stopPropagation()">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <div class="p-5 pt-10 space-y-3">
+        <div *ngFor="let column of config.columns" class="flex justify-between text-sm">
+          <span class="font-medium text-gray-600">{{ column.header }}:</span>
+          <span class="font-medium text-gray-900" [ngClass]="getCellClass(row, column)">
+            {{ formatValue(row[column.key], column) }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MOBILE SUMMARY CARD (CHANGE HERE) ==================== -->
+  <div *ngIf="config.showFooter && dataSource.data.length > 0"
+       class="md:hidden rounded-xl border-2 border-blue-500 bg-blue-50 p-5 shadow-sm">
+    <h3 class="text-sm font-semibold text-gray-700 mb-3">Total Summary</h3>
+    <ng-container *ngFor="let col of config.columns">
+      <div *ngIf="config.footerColumns?.includes(col.key)"
+           class="flex justify-between text-sm">
+        <span class="text-gray-600">{{ col.header }}</span>
+        <span class="font-semibold text-gray-900">
+          {{ formatValue(getColumnTotal(col.key), col) }}
+        </span>
+      </div>
+    </ng-container>
+    <div class="border-t mt-3 pt-3 flex justify-between">
+      <span class="font-semibold text-gray-800">Grand Total</span>
+      <span class="font-bold text-blue-700">
+        {{ formatCurrency(getGrandTotal()) }}
+      </span>
+    </div>
+  </div>
+  <!-- ==================== END FIX ==================== -->
+
+  <!-- ==================== SINGLE SHARED MENU ==================== -->
+  <mat-menu #actionsMenu="matMenu">
+    <ng-template matMenuContent let-row="row">
+      <ng-container *ngFor="let action of config.rowActions">
+        <button mat-menu-item
+                (click)="navigateTo(action, row)"
+                *ngIf="!action.visible || action.visible(row)">
+          <mat-icon *ngIf="action.icon">{{ action.icon }}</mat-icon>
+          <span>{{ action.label }}</span>
+        </button>
+      </ng-container>
+    </ng-template>
+  </mat-menu>
+
+  <!-- ==================== EMPTY STATE ==================== -->
+  <div *ngIf="!data || data.length === 0" class="text-center py-16 text-gray-500">
+    <mat-icon class="text-6xl text-gray-300 mb-4">{{ config.emptyIcon || 'table_chart' }}</mat-icon>
+    <p class="text-lg font-medium">{{ config.emptyMessage || 'No data available' }}</p>
+  </div>
+
+  <!-- ==================== PAGINATION ==================== -->
+  <mat-paginator *ngIf="config.showPagination && data.length > 0"
+                 [pageSize]="config.pageSize || 10"
+                 [pageSizeOptions]="config.pageSizeOptions || [10, 25, 50]"
+                 [length]="data.length"
+                 showFirstLastButtons
+                 class="mt-6">
+  </mat-paginator>
+</div>

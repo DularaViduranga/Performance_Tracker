@@ -1,0 +1,64 @@
+<nav class="hidden lg:block bg-white shadow-md">
+  <div class="container mx-auto">
+    <div class="flex gap-4 p-4">
+      <button 
+        mat-button
+        class="nav-btn flex items-center gap-2"
+        routerLink="/my-gwp"
+        routerLinkActive="active-btn"
+        (mousemove)="onMouseMove($event)"
+        (mouseleave)="onMouseLeave($event)">
+        <mat-icon>work</mat-icon>
+        <span>My GWP</span>
+      </button>
+      <button 
+        mat-button class="nav-btn flex items-center gap-2" 
+        routerLink="/my-cash-collection"
+        routerLinkActive="active-btn"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (mousemove)="onMouseMove($event)"
+        (mouseleave)="onMouseLeave($event)">
+        <mat-icon>collections</mat-icon>
+        <span>My Collection</span>
+      </button>
+      <button mat-button class="nav-btn flex items-center gap-2" 
+        routerLink="/my-ren"
+        routerLinkActive="active-btn"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (mousemove)="onMouseMove($event)"
+        (mouseleave)="onMouseLeave($event)">
+        <mat-icon>autorenew</mat-icon>
+        <span>My Renewal</span>
+      </button>
+      <button mat-button class="nav-btn flex items-center gap-2" 
+        routerLink="/my-can"
+        routerLinkActive="active-btn"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (mousemove)="onMouseMove($event)"
+        (mouseleave)="onMouseLeave($event)">
+        <mat-icon>cancel</mat-icon>
+        <span>My Cancellation</span>
+      </button>
+      
+      <button mat-button class="nav-btn flex items-center gap-2" 
+        routerLink="/my-performance"
+        routerLinkActive="active-btn"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (mousemove)="onMouseMove($event)"
+        (mouseleave)="onMouseLeave($event)">
+        <mat-icon>assessment</mat-icon>
+        <span>My Performance</span>
+      </button>
+      
+      <button mat-button class="nav-btn flex items-center gap-2" 
+        routerLink="/my-business"
+        routerLinkActive="active-btn"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (mousemove)="onMouseMove($event)"
+        (mouseleave)="onMouseLeave($event)">
+        <mat-icon>business_center</mat-icon>
+        <span>My Business</span>
+      </button>
+    </div>
+  </div>
+</nav>

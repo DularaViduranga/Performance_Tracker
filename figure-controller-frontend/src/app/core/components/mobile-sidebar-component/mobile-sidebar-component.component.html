@@ -1,0 +1,56 @@
+<!-- Backdrop Overlay -->
+<div class="fixed inset-0 z-40 bg-black transition-opacity duration-300"
+     [class.opacity-0]="!sidebarOpen"
+     [class.opacity-50]="sidebarOpen"
+     [class.pointer-events-none]="!sidebarOpen"
+     (click)="closeSidebar.emit()">
+</div>
+
+<!-- Sidebar -->
+<div class="fixed left-0 top-0 h-full w-64 sm:w-72 md:w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out overflow-y-auto"
+     [class.-translate-x-full]="!sidebarOpen"
+     [class.translate-x-0]="sidebarOpen">
+  
+  <div class="p-4">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6 pb-4 border-b">
+      <h2 class="text-xl font-bold text-gray-800">Menu</h2>
+      <button mat-icon-button (click)="closeSidebar.emit()" class="text-gray-600 hover:text-gray-800">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    
+    <!-- Navigation Links -->
+    <nav class="flex flex-col gap-3">
+      <button mat-button class="!justify-start !text-left !px-4 !py-3 hover:bg-blue-50 !rounded-lg transition-colors" (click)="navigateToGwp()">
+        <mat-icon class="mr-3 text-blue-600">work</mat-icon>
+        <span class="text-gray-700 font-medium">My GWP</span>
+      </button>
+      
+      <button mat-button class="!justify-start !text-left !px-4 !py-3 hover:bg-blue-50 !rounded-lg transition-colors" (click)="navigateToColl()">
+        <mat-icon class="mr-3 text-blue-600">collections</mat-icon>
+        <span class="text-gray-700 font-medium">My Collection</span>
+      </button>
+      
+      <button mat-button class="!justify-start !text-left !px-4 !py-3 hover:bg-blue-50 !rounded-lg transition-colors" (click)="navigateToRen()">
+        <mat-icon class="mr-3 text-blue-600">autorenew</mat-icon>
+        <span class="text-gray-700 font-medium">My Renewal</span>
+      </button>
+      
+      <button mat-button class="!justify-start !text-left !px-4 !py-3 hover:bg-blue-50 !rounded-lg transition-colors" (click)="navigateToCan()">
+        <mat-icon class="mr-3 text-blue-600">cancel</mat-icon>
+        <span class="text-gray-700 font-medium">My Cancellation</span>
+      </button>
+      
+      <button mat-button class="!justify-start !text-left !px-4 !py-3 hover:bg-blue-50 !rounded-lg transition-colors" (click)="navigateToPerformance()">
+        <mat-icon class="mr-3 text-blue-600">assessment</mat-icon>
+        <span class="text-gray-700 font-medium">My Performance</span>
+      </button>
+      
+      <button mat-button class="!justify-start !text-left !px-4 !py-3 hover:bg-blue-50 !rounded-lg transition-colors" (click)="navigateToBusiness()">
+        <mat-icon class="mr-3 text-blue-600">business_center</mat-icon>
+        <span class="text-gray-700 font-medium">My Business</span>
+      </button>
+    </nav>
+  </div>
+</div>

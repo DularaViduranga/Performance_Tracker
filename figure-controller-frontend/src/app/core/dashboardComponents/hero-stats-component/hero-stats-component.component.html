@@ -1,0 +1,44 @@
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+  <!-- Total GWP -->
+  <app-stat-card-component
+    label="Total GWP This Month"
+    [value]="loading ? null : gwp.current | number:'1.0-0'"
+    [trend]="loading ? undefined : gwp.change "
+    subtext="vs last month">
+  </app-stat-card-component>
+
+  <!-- Cash Collection -->
+  <app-stat-card-component
+    label="Cash Collection"
+    [value]="loading ? null : cashCollection.current | number:'1.0-0'"
+    [trend]="loading ? undefined : cashCollection.change "
+    subtext="vs last month">
+  </app-stat-card-component>
+
+  <!-- Renewals -->
+  <!-- <app-stat-card-component
+    label="Renewals"
+    [value]="loading ? null : renewals.current"
+    [trend]="loading ? undefined : renewals.change"
+    subtext="percentage">
+  </app-stat-card-component> -->
+
+
+  <!-- New Business -->
+  <app-stat-card-component
+    label="New Business"
+    [value]="loading ? null : newBusiness.current"
+    [trend]="loading ? undefined : newBusiness.change"
+    subtext="new policies">
+  </app-stat-card-component>
+</div>
+
+<!-- Loading & Error -->
+<div *ngIf="loading" class="text-center py-8 text-slate-500">
+  <p class="text-lg">Loading your performance stats...</p>
+</div>
+
+<div *ngIf="error && !loading" class="text-center py-8 text-rose-600">
+  <p class="text-lg font-medium">Failed to load data</p>
+  <p class="text-sm mt-2">Please try again later.</p>
+</div>
