@@ -10,9 +10,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface AccumulatedAndCurrentMysqlRepoRegion extends JpaRepository<RegionGwpDaily, Long> {
+public interface AccumulatedDailyRepoRegion extends JpaRepository<RegionGwpDaily, Long> {
     void deleteBySnapshotDate(LocalDate snapshotDate);
 
     @Query("SELECT new com.dulara.figure_controller.dto.region.RegionsWithGWPDTO (r.regionCode, r.regionName, r.currentMonthGwp, r.accumulatedGwp) FROM RegionGwpDaily r WHERE r.snapshotDate = :today")
     List<RegionsWithGWPDTO> getDailyRegionGWP(LocalDate today);
+
+    List<RegionGwpDaily> findTop3ByOrderByAccumulatedGwpDesc();
 }

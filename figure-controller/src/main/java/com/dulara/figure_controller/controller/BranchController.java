@@ -4,8 +4,8 @@ package com.dulara.figure_controller.controller;
 import com.dulara.figure_controller.dto.branch.*;
 import com.dulara.figure_controller.dto.myFigure.MyGWPResponseDTO;
 import com.dulara.figure_controller.dto.myFigure.MyPerformanceResponseDTO;
-import com.dulara.figure_controller.entity.BranchGwpDaily;
-import com.dulara.figure_controller.repository.mysql.AccumiliatedAndCurrentMySqlRepository;
+import com.dulara.figure_controller.dto.region.MonthWiseRegionGwpDTO;
+import com.dulara.figure_controller.repository.mysql.AccumulatedDailyBranchRepo;
 import com.dulara.figure_controller.service.BranchService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +16,9 @@ import java.util.List;
 @RequestMapping("/api/v1/branches")
 public class BranchController {
     private final BranchService branchService;
-    private final AccumiliatedAndCurrentMySqlRepository accumiliatedAndCurrentMySqlRepository;
+    private final AccumulatedDailyBranchRepo accumiliatedAndCurrentMySqlRepository;
 
-    public BranchController(BranchService branchService, AccumiliatedAndCurrentMySqlRepository accumiliatedAndCurrentMySqlRepository) {
+    public BranchController(BranchService branchService, AccumulatedDailyBranchRepo accumiliatedAndCurrentMySqlRepository) {
         this.branchService = branchService;
         this.accumiliatedAndCurrentMySqlRepository = accumiliatedAndCurrentMySqlRepository;
     }
@@ -98,10 +98,25 @@ public class BranchController {
         return ResponseEntity.ok(response);
     }
 
-//    @GetMapping("/branchAccumulatedPerformance")
-//    public ResponseEntity<BranchGwpDaily> getBranchAccumulatedPerformance(@RequestParam String branchCode){
-//        BranchGwpDaily response = accumiliatedAndCurrentMySqlRepository.findByBranchCode(branchCode);
-//        return ResponseEntity.ok(response);
-//    }
+    @GetMapping("/getMonthWiseBranchGwp")
+    public ResponseEntity<List<MonthWiseRegionGwpDTO>> getMonthWiseBranchGwp(@RequestParam String branchCode,
+                                                                             @RequestParam int year) {
+        List<MonthWiseRegionGwpDTO> response = branchService.getMonthWiseBranchGwp(branchCode,year);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/getAllBranchesFromDaily")
+    public ResponseEntity<List<GetAllBranchesFromDaily>> getAllBranchesFromDaily() {
+        List<GetAllBranchesFromDaily> response = branchService.getAllBranchesFromDaily();
+        return ResponseEntity.ok(response);
+    }
+
+
+    @GetMapping("/getTop10AccumulatedBranchesFromDaily")
+    public ResponseEntity<List<DailyBranchGWPDTO>> getTop10AccumulatedBranchesFromDaily() {
+        List<DailyBranchGWPDTO> response = branchService.getTop10AccumulatedBranchesFromDaily();
+        return ResponseEntity.ok(response);
+    }
+
 
 }

@@ -3,6 +3,7 @@ package com.dulara.figure_controller.service;
 import com.dulara.figure_controller.dto.branch.*;
 import com.dulara.figure_controller.dto.myFigure.MyGWPResponseDTO;
 import com.dulara.figure_controller.dto.myFigure.MyPerformanceResponseDTO;
+import com.dulara.figure_controller.dto.region.MonthWiseRegionGwpDTO;
 
 import java.util.List;
 
@@ -28,4 +29,10 @@ public interface BranchService {
     List<BranchCancellationResponseDTO> getBranchCancellation(String start, String end, String branchCode);
 
     List<MyPerformanceResponseDTO> getBranchPerformance(String start, String end, String branchCode);
+
+    List<MonthWiseRegionGwpDTO> getMonthWiseBranchGwp(String branchCode, int year);
+
+    List<GetAllBranchesFromDaily> getAllBranchesFromDaily();
+
+    List<DailyBranchGWPDTO> getTop10AccumulatedBranchesFromDaily();
 }

@@ -2,6 +2,7 @@ package com.dulara.figure_controller.service;
 
 import com.dulara.figure_controller.dto.region.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface RegionService {
@@ -14,4 +15,10 @@ public interface RegionService {
     List<BranchesByRegionDTO> getBranchesByRegion(String regionCode);
 
     List<RegionsWithGWPDTO> getRegionsWithGWP();
+
+    List<MonthWiseRegionGwpDTO> getMonthWiseRegionGwp(String regionCode, int year);
+
+    BigDecimal getCurrentAccumulatedGwp();
+
+    List<RegionsWithGWPDTO> getTop3AccumulatedRegionsFromDaily();
 }

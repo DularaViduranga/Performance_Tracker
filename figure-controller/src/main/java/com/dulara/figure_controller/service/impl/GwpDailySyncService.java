@@ -4,8 +4,8 @@ import com.dulara.figure_controller.dto.branch.DailyBranchGWPDTO;
 import com.dulara.figure_controller.dto.region.RegionsWithGWPDTO;
 import com.dulara.figure_controller.entity.BranchGwpDaily;
 import com.dulara.figure_controller.entity.RegionGwpDaily;
-import com.dulara.figure_controller.repository.mysql.AccumiliatedAndCurrentMySqlRepository;
-import com.dulara.figure_controller.repository.mysql.AccumulatedAndCurrentMysqlRepoRegion;
+import com.dulara.figure_controller.repository.mysql.AccumulatedDailyBranchRepo;
+import com.dulara.figure_controller.repository.mysql.AccumulatedDailyRepoRegion;
 import com.dulara.figure_controller.repository.oracle.AcumiliatedAndCurrentRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -21,11 +21,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GwpDailySyncService {
     private final AcumiliatedAndCurrentRepo oracleRepo;
-    private final AccumiliatedAndCurrentMySqlRepository mysqlRepo;
-    private final AccumulatedAndCurrentMysqlRepoRegion mysqlRepoRegion;
+    private final AccumulatedDailyBranchRepo mysqlRepo;
+    private final AccumulatedDailyRepoRegion mysqlRepoRegion;
 
 
-    @Scheduled(cron = "0 0 16 * * ?") // Runs every day at 3 AM
+    @Scheduled(cron = "0 24 12 * * ?") // Runs every day at 3 AM
     @Transactional
     public void syncDailyGwp(){
         LocalDate today = LocalDate.now();
@@ -39,6 +39,7 @@ public class GwpDailySyncService {
                 .map(dto -> new BranchGwpDaily(
                         null,
                         dto.getBranchCode(),
+                        dto.getBranchName(),
                         dto.getCurrentMonthGwp(),
                         dto.getAccumulatedGwp(),
                         today
@@ -49,7 +50,7 @@ public class GwpDailySyncService {
     }
 
 
-    @Scheduled(cron = "0 32 16 * * ?") // Runs every day at 3 AM
+    @Scheduled(cron = "0 0 9 * * ?") // Runs every day at 3 AM
     @Transactional
     public void syncDailyRegionGwp(){
         LocalDate today = LocalDate.now();

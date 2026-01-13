@@ -4,8 +4,10 @@ import com.dulara.figure_controller.dbConnection.JDBC;
 import com.dulara.figure_controller.dto.branch.*;
 import com.dulara.figure_controller.dto.myFigure.MyGWPResponseDTO;
 import com.dulara.figure_controller.dto.myFigure.MyPerformanceResponseDTO;
-import com.dulara.figure_controller.entity.BranchEntity;
-import com.dulara.figure_controller.entity.RegionEntity;
+import com.dulara.figure_controller.dto.region.MonthWiseRegionGwpDTO;
+import com.dulara.figure_controller.entity.*;
+import com.dulara.figure_controller.repository.mysql.AccumulatedDailyBranchRepo;
+import com.dulara.figure_controller.repository.mysql.AccumulatedMonthlyBranchRepo;
 import com.dulara.figure_controller.repository.mysql.BranchRepository;
 import com.dulara.figure_controller.repository.mysql.RegionRepository;
 import com.dulara.figure_controller.repository.oracle.MyFiguresRepository;
@@ -25,12 +27,16 @@ public class BranchServiceImpl implements BranchService {
     private final BranchRepository branchRepository;
     private final RegionRepository regionRepository;
     private final MyFiguresRepository myFiguresRepository;
+    private final AccumulatedMonthlyBranchRepo monthlyBranchRepo;
+    private final AccumulatedDailyBranchRepo dailyBranchRepo;
 
 
-    public BranchServiceImpl(BranchRepository branchRepository, RegionRepository regionRepository, MyFiguresRepository myFiguresRepository) {
+    public BranchServiceImpl(BranchRepository branchRepository, RegionRepository regionRepository, MyFiguresRepository myFiguresRepository, AccumulatedMonthlyBranchRepo monthlyBranchRepo, AccumulatedDailyBranchRepo dailyBranchRepo) {
         this.regionRepository = regionRepository;
         this.branchRepository = branchRepository;
         this.myFiguresRepository = myFiguresRepository;
+        this.monthlyBranchRepo = monthlyBranchRepo;
+        this.dailyBranchRepo = dailyBranchRepo;
     }
 
     @Override
@@ -365,6 +371,33 @@ public class BranchServiceImpl implements BranchService {
             dtoList.add(new MyPerformanceResponseDTO(classCode, target, achieved));
         }
         return dtoList;
+    }
+
+    @Override
+    public List<MonthWiseRegionGwpDTO> getMonthWiseBranchGwp(String branchCode, int year) {
+        List<BranchGwpMonthly> branchGwpMonthlies = monthlyBranchRepo.findByBranchCodeAndYear(branchCode,year);
+
+        return branchGwpMonthlies.stream()
+                .map(region -> new MonthWiseRegionGwpDTO(region.getMonth(), region.getMonthlyGwp()))
+                .toList();
+    }
+
+    @Override
+    public List<GetAllBranchesFromDaily> getAllBranchesFromDaily() {
+        return dailyBranchRepo.findAllBranches();    }
+
+    @Override
+    public List<DailyBranchGWPDTO> getTop10AccumulatedBranchesFromDaily() {
+        List<BranchGwpDaily> topBranches = dailyBranchRepo.findTop10ByOrderByAccumulatedGwpDesc();
+
+        return topBranches.stream()
+                .map(b -> new DailyBranchGWPDTO(
+                        b.getBranchCode(),
+                        b.getBranchName(),
+                        b.getCurrentMonthGwp(),
+                        b.getAccumulatedGwp()
+                ))
+                .collect(Collectors.toList());
     }
 
 

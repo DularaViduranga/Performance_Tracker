@@ -1,10 +1,12 @@
 package com.dulara.figure_controller.controller;
 
+import com.dulara.figure_controller.dto.branch.DailyBranchGWPDTO;
 import com.dulara.figure_controller.dto.region.*;
 import com.dulara.figure_controller.service.RegionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -47,5 +49,22 @@ public class RegionController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/getMonthWiseRegionGwp")
+    public ResponseEntity<List<MonthWiseRegionGwpDTO>> getMonthWiseRegionGwp(@RequestParam String regionCode,
+                                                                             @RequestParam int year) {
+        List<MonthWiseRegionGwpDTO> response = regionService.getMonthWiseRegionGwp(regionCode,year);
+        return ResponseEntity.ok(response);
+    }
 
+    @GetMapping("/getCurrentAccumulatedGwp")
+    public ResponseEntity<BigDecimal> getCurrentAccumulatedGwp() {
+        BigDecimal response = regionService.getCurrentAccumulatedGwp();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/getTop3AccumulatedRegionsFromDaily")
+    public ResponseEntity<List<RegionsWithGWPDTO>> getTop10AccumulatedRegionsFromDaily() {
+        List<RegionsWithGWPDTO> response = regionService.getTop3AccumulatedRegionsFromDaily();
+        return ResponseEntity.ok(response);
+    }
 }

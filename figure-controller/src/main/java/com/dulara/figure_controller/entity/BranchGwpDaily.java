@@ -20,6 +20,8 @@ public class BranchGwpDaily {
 
     private String branchCode;
 
+    private String branchName;
+
     private BigDecimal currentMonthGwp;
     private BigDecimal accumulatedGwp;
 

@@ -1,11 +1,16 @@
 package com.dulara.figure_controller.service.impl;
 
+import com.dulara.figure_controller.dto.branch.DailyBranchGWPDTO;
 import com.dulara.figure_controller.dto.region.*;
 import com.dulara.figure_controller.entity.BranchGwpDaily;
 import com.dulara.figure_controller.entity.RegionEntity;
-import com.dulara.figure_controller.repository.mysql.AccumiliatedAndCurrentMySqlRepository;
-import com.dulara.figure_controller.repository.mysql.AccumulatedAndCurrentMysqlRepoRegion;
+import com.dulara.figure_controller.entity.RegionGwpDaily;
+import com.dulara.figure_controller.entity.RegionGwpMonthly;
+import com.dulara.figure_controller.repository.mysql.AccumulatedDailyBranchRepo;
+import com.dulara.figure_controller.repository.mysql.AccumulatedDailyRepoRegion;
+import com.dulara.figure_controller.repository.mysql.AccumulatedMonthlyRegionRepo;
 import com.dulara.figure_controller.repository.mysql.RegionRepository;
+import com.dulara.figure_controller.repository.oracle.AcumiliatedAndCurrentRepo;
 import com.dulara.figure_controller.repository.oracle.MyFiguresRepository;
 import com.dulara.figure_controller.service.RegionService;
 import org.springframework.stereotype.Service;
@@ -20,14 +25,18 @@ import java.util.stream.Collectors;
 public class RegionServiceImpl implements RegionService {
     private final RegionRepository regionRepository;
     private final MyFiguresRepository myFiguresRepository;
-    private final AccumiliatedAndCurrentMySqlRepository accumulatedRepo;
-    private final AccumulatedAndCurrentMysqlRepoRegion accumulatedAndCurrentMysqlRepoRegion;
+    private final AccumulatedDailyBranchRepo accumulatedRepo;
+    private final AccumulatedDailyRepoRegion accumulatedAndCurrentMysqlRepoRegion;
+    private final AccumulatedMonthlyRegionRepo monthlyRegionRepo;
+    private final AcumiliatedAndCurrentRepo acumiliatedAndCurrentRepo;
 
-    public RegionServiceImpl(RegionRepository regionRepository, MyFiguresRepository myFiguresRepository, AccumiliatedAndCurrentMySqlRepository accumulatedRepo, AccumulatedAndCurrentMysqlRepoRegion accumulatedAndCurrentMysqlRepoRegion) {
+    public RegionServiceImpl(RegionRepository regionRepository, MyFiguresRepository myFiguresRepository, AccumulatedDailyBranchRepo accumulatedRepo, AccumulatedDailyRepoRegion accumulatedAndCurrentMysqlRepoRegion, AccumulatedMonthlyRegionRepo monthlyRegionRepo, AcumiliatedAndCurrentRepo acumiliatedAndCurrentRepo) {
         this.regionRepository = regionRepository;
         this.myFiguresRepository = myFiguresRepository;
         this.accumulatedRepo = accumulatedRepo;
         this.accumulatedAndCurrentMysqlRepoRegion = accumulatedAndCurrentMysqlRepoRegion;
+        this.monthlyRegionRepo = monthlyRegionRepo;
+        this.acumiliatedAndCurrentRepo = acumiliatedAndCurrentRepo;
     }
 
 
@@ -121,6 +130,35 @@ public class RegionServiceImpl implements RegionService {
     public List<RegionsWithGWPDTO> getRegionsWithGWP() {
         LocalDate today = LocalDate.now();
         return accumulatedAndCurrentMysqlRepoRegion.getDailyRegionGWP(today);
+    }
+
+    @Override
+    public List<MonthWiseRegionGwpDTO> getMonthWiseRegionGwp(String regionCode, int year) {
+        List<RegionGwpMonthly> regionGwpMonthlies = monthlyRegionRepo.findByRegionCodeAndYear(regionCode,year);
+
+        return regionGwpMonthlies.stream()
+                .map(region -> new MonthWiseRegionGwpDTO(region.getMonth(), region.getMonthlyGwp()))
+                .toList();
+
+    }
+
+    @Override
+    public BigDecimal getCurrentAccumulatedGwp() {
+        return acumiliatedAndCurrentRepo.getAccumulatedGwp();
+    }
+
+    @Override
+    public List<RegionsWithGWPDTO> getTop3AccumulatedRegionsFromDaily() {
+        List<RegionGwpDaily> topBranches = accumulatedAndCurrentMysqlRepoRegion.findTop3ByOrderByAccumulatedGwpDesc();
+
+        return topBranches.stream()
+                .map(b -> new RegionsWithGWPDTO(
+                        b.getRegionCode(),
+                        b.getRegionName(),
+                        b.getCurrentMonthGwp(),
+                        b.getAccumulatedGwp()
+                ))
+                .collect(Collectors.toList());
     }
 
 
