@@ -118,5 +118,12 @@ public class BranchController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/branchAccumulatedPerformance")
+    public ResponseEntity<DailyBranchGWPDTO> getBranchAccumulatedPerformance(@RequestParam String branchCode) {
+        DailyBranchGWPDTO response = branchService.getBranchAccumulatedPerformance(branchCode);
+        return ResponseEntity.ok(response);
+    }
+
+
 
 }

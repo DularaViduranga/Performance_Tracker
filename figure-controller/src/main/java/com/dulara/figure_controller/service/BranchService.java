@@ -35,4 +35,6 @@ public interface BranchService {
     List<GetAllBranchesFromDaily> getAllBranchesFromDaily();
 
     List<DailyBranchGWPDTO> getTop10AccumulatedBranchesFromDaily();
+
+    DailyBranchGWPDTO getBranchAccumulatedPerformance(String branchCode);
 }

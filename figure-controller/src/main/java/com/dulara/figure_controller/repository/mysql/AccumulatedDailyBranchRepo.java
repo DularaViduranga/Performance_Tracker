@@ -26,4 +26,6 @@ public interface AccumulatedDailyBranchRepo extends JpaRepository<BranchGwpDaily
 //            "FROM BranchGwpDaily b " +
 //            "ORDER BY b.accumulatedGwp DESC")
     List<BranchGwpDaily> findTop10ByOrderByAccumulatedGwpDesc();
+
+    BranchGwpDaily findByBranchCode(String branchCode);
 }

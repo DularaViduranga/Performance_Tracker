@@ -400,5 +400,17 @@ public class BranchServiceImpl implements BranchService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public DailyBranchGWPDTO getBranchAccumulatedPerformance(String branchCode) {
+        BranchGwpDaily b = dailyBranchRepo.findByBranchCode(branchCode);
+
+        return new DailyBranchGWPDTO(
+                b.getBranchCode(),
+                b.getBranchName(),
+                b.getCurrentMonthGwp(),
+                b.getAccumulatedGwp()
+        );
+    }
+
 
 }
