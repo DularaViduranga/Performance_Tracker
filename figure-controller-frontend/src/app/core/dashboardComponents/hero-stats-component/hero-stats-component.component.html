@@ -7,22 +7,13 @@
     subtext="vs last month">
   </app-stat-card-component>
 
-  <!-- Cash Collection -->
+  <!-- Cash Collection --> 
   <app-stat-card-component
     label="Cash Collection"
     [value]="loading ? null : cashCollection.current | number:'1.0-0'"
     [trend]="loading ? undefined : cashCollection.change "
     subtext="vs last month">
   </app-stat-card-component>
-
-  <!-- Renewals -->
-  <!-- <app-stat-card-component
-    label="Renewals"
-    [value]="loading ? null : renewals.current"
-    [trend]="loading ? undefined : renewals.change"
-    subtext="percentage">
-  </app-stat-card-component> -->
-
 
   <!-- New Business -->
   <app-stat-card-component

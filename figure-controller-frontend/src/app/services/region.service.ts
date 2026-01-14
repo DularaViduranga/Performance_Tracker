@@ -35,5 +35,13 @@ export class RegionService {
     return this.http.get<RegionsWithGWPDTO[]>(`${this.API_Url}/getRegionsWithGWP`);
   }
 
+  getIslandWideAchievedGwp(): Observable<number> {
+    return this.http.get<number>(`${this.API_Url}/getCurrentAccumulatedGwp`);
+  }
+
+  getTop3AccumulatedRegionsFromDaily(): Observable<RegionsWithGWPDTO[]> {
+    return this.http.get<RegionsWithGWPDTO[]>(`${this.API_Url}/getTop3AccumulatedRegionsFromDaily`);
+  }
+
 }
 
