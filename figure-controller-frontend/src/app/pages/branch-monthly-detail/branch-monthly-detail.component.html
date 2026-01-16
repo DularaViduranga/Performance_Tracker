@@ -1,0 +1,11 @@
+<div class="p-8 max-w-4xl mx-auto">
+      <h1 class="text-3xl font-bold mb-8">Monthly GWP - {{ branchName }}</h1>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div *ngFor="let month of monthlyData" class="bg-white rounded-lg shadow p-4 text-center">
+          <p class="text-sm font-medium text-slate-600">{{ getMonthName(month.month) }}</p>
+          <p class="text-xl font-bold text-indigo-600 mt-2">
+            {{ formatGwp(month.monthlyGwp) }}
+          </p>
+        </div>
+      </div>
+    </div>

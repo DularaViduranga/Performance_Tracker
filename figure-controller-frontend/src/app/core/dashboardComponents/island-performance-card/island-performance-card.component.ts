@@ -11,6 +11,7 @@ export class IslandPerformanceCardComponent {
   @Input() title: string = '';
   @Input() amount: number = 0;
   @Input() variant: 'target' | 'achieved' = 'achieved';
+  @Input() targetAmount: number = 0;
 
   formatGwp(value: number): string {
     return new Intl.NumberFormat('en-LK', {
@@ -34,4 +35,24 @@ export class IslandPerformanceCardComponent {
   getLabel() {
     return this.variant === 'target' ? 'Annual Target GWP' : 'Achieved GWP';
   }
+
+  getProgressWidth(): string {
+    if (this.variant === 'target') {
+      return '100%';
+    }
+
+    if (!this.targetAmount || this.targetAmount <= 0) {
+      return '0%';
+    }
+
+    const percentage = (this.amount / this.targetAmount) * 100;
+    return Math.min(percentage, 100) + '%';
+  }
+
+  getBarColor() {
+    return this.variant === 'target'
+      ? 'bg-amber-500'
+      : 'bg-emerald-500';
+  }
+
 }

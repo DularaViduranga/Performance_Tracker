@@ -1,4 +1,4 @@
-<div class="mb-4">
+<!-- <div class="mb-4">
   <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
     <mat-icon class="text-blue-600 text-2xl">assessment</mat-icon>
     My Achievement
@@ -13,9 +13,9 @@
       (dateRangeChange)="onDateRangeChange($event)">
     </app-yearandmonthselector-component>
 
-    <button 
-      mat-raised-button 
-      color="primary" 
+    <button
+      mat-raised-button
+      color="primary"
       (click)="onSearch()"
       [disabled]="!selectedYear || !selectedMonth || isLoading"
       class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 h-11 flex items-center gap-2 transition-colors text-sm disabled:opacity-50 disabled:cursor-not-allowed">
@@ -27,18 +27,90 @@
 </div>
 
 <div class="bg-white rounded-lg shadow-md p-4 mb-4">
-  <app-generic-table 
+  <app-generic-table
     [data]="performanceData"
     [config]="tableConfig">
   </app-generic-table>
 </div>
 
 <div class="flex justify-end">
-  <button 
-    mat-raised-button 
+  <button
+    mat-raised-button
+    (click)="onReset()"
+    class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 h-10 flex items-center gap-2 transition-colors text-sm">
+    <mat-icon class="text-lg">refresh</mat-icon>
+    Reset
+  </button>
+</div> -->
+<!-- Header + Selector Centered -->
+<div class="flex justify-center mb-4">
+  <div class="inline-block w-full md:w-auto px-4 md:px-0">
+
+    <!-- Header -->
+    <div class="mb-4">
+      <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+        <mat-icon class="text-blue-600 text-2xl">assessment</mat-icon>
+        My Achievement
+      </h1>
+    </div>
+
+    <!-- Selector Card -->
+    <div class="bg-white rounded-lg shadow-md p-4">
+      <div class="flex flex-col md:flex-row gap-3 md:items-center w-full">
+
+        <!-- Year Selector -->
+        <mat-form-field appearance="fill" class="w-full md:w-40">
+          <mat-label>Year</mat-label>
+          <mat-select [(value)]="selectedYear">
+            <mat-option *ngFor="let year of availableYears" [value]="year">
+              {{ year }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Month Selector -->
+        <mat-form-field appearance="fill" class="w-full md:w-44">
+          <mat-label>Month</mat-label>
+          <mat-select [(value)]="selectedMonth">
+            <mat-option *ngFor="let month of availableMonths" [value]="month.value">
+              {{ month.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Search Button -->
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="onSearch()"
+          [disabled]="!selectedYear || !selectedMonth || isLoading"
+          class="bg-blue-600 hover:bg-blue-700 text-white px-6 h-10 flex items-center justify-center gap-2 transition-colors text-sm whitespace-nowrap md:ml-3 w-full md:w-auto flex-shrink-0">
+          <mat-icon *ngIf="isLoading" class="animate-spin">refresh</mat-icon>
+          <span *ngIf="!isLoading">Search</span>
+          <span *ngIf="isLoading">Loading...</span>
+        </button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Generic Table -->
+<div class="bg-white rounded-lg shadow-md p-4 mb-4">
+  <app-generic-table
+    [data]="performanceData"
+    [config]="tableConfig">
+  </app-generic-table>
+</div>
+
+<!-- Reset Button -->
+<div class="flex justify-end">
+  <button
+    mat-raised-button
     (click)="onReset()"
     class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 h-10 flex items-center gap-2 transition-colors text-sm">
     <mat-icon class="text-lg">refresh</mat-icon>
     Reset
   </button>
 </div>
+

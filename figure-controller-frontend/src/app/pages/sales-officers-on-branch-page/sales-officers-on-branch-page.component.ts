@@ -113,7 +113,7 @@ export class SalesOfficersOnBranchPageComponent implements OnInit {
   onSearch() {
     if (!this.fromDate || !this.toDate) return;
 
-    const branchCode = this.branchCode; 
+    const branchCode = this.branchCode;
     const fromDate = this.fromDate.toDateString();
     const toDate = this.toDate.toDateString();
     console.log('Fetching SFC data from', fromDate, 'to', toDate, 'for branchCode:', branchCode);

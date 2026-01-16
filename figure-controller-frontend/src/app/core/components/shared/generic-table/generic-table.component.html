@@ -14,11 +14,34 @@
           {{ column.header }}
         </th>
 
-        <td mat-cell *matCellDef="let row"
+        <!-- <td mat-cell *matCellDef="let row"
             class="py-3 px-4 text-xs border-b"
             [ngClass]="['text-' + (column.align || 'left'), getCellClass(row, column)]">
           {{ formatValue(row[column.key], column) }}
-        </td>
+        </td> -->
+
+        <td mat-cell *matCellDef="let row"
+          class="py-3 px-4 text-xs border-b"
+          [ngClass]="['text-' + (column.align || 'left'), getCellClass(row, column)]">
+
+        <!-- ✅ ONLY sfcName column triggers menu -->
+        <span *ngIf="column.key === 'sfcName' && config.rowActions?.length"
+              class="text-blue-600 font-semibold cursor-pointer hover:underline"
+              [matMenuTriggerFor]="actionsMenu"
+              [matMenuTriggerData]="{ row: row }"
+              (click)="$event.stopPropagation()">
+
+          {{ formatValue(row[column.key], column) }}
+
+        </span>
+
+        <!-- normal cells -->
+        <span *ngIf="column.key !== 'sfcName'">
+          {{ formatValue(row[column.key], column) }}
+        </span>
+
+      </td>
+
 
         <!-- ==================== FOOTER CELL ==================== -->
         <td mat-footer-cell *matFooterCellDef
@@ -39,7 +62,7 @@
       </ng-container>
 
       <!-- Actions Column -->
-      <ng-container matColumnDef="actions" *ngIf="config.rowActions?.length">
+      <!-- <ng-container matColumnDef="actions" *ngIf="config.rowActions?.length">
         <th mat-header-cell *matHeaderCellDef class="w-12"></th>
         <td mat-cell *matCellDef="let row" class="px-2" (click)="$event.stopPropagation()">
           <button mat-icon-button
@@ -49,7 +72,7 @@
           </button>
         </td>
         <td mat-footer-cell *matFooterCellDef></td>
-      </ng-container>
+      </ng-container> -->
 
       <!-- Header & Row Definitions -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -78,19 +101,30 @@
          [ngClass]="getRowClass(row)"
          (click)="onRowClick(row)">
 
-      <button mat-icon-button
+      <!-- <button mat-icon-button
               *ngIf="config.rowActions?.length"
               class="absolute top-3 right-3 z-10 text-gray-500"
               [matMenuTriggerFor]="actionsMenu"
               [matMenuTriggerData]="{ row: row }"
               (click)="$event.stopPropagation()">
         <mat-icon>more_vert</mat-icon>
-      </button>
+      </button> -->
 
       <div class="p-5 pt-10 space-y-3">
         <div *ngFor="let column of config.columns" class="flex justify-between text-sm">
-          <span class="font-medium text-gray-600">{{ column.header }}:</span>
-          <span class="font-medium text-gray-900" [ngClass]="getCellClass(row, column)">
+          <!-- ✅ Make sfcName clickable like desktop -->
+          <span *ngIf="column.key === 'sfcName' && config.rowActions?.length"
+                class="text-blue-600 font-semibold cursor-pointer hover:underline"
+                [matMenuTriggerFor]="actionsMenu"
+                [matMenuTriggerData]="{ row: row }"
+                (click)="$event.stopPropagation()">
+            {{ formatValue(row[column.key], column) }}
+          </span>
+
+          <!-- normal cells -->
+          <span *ngIf="column.key !== 'sfcName' || !config.rowActions?.length"
+                class="font-medium text-gray-900"
+                [ngClass]="getCellClass(row, column)">
             {{ formatValue(row[column.key], column) }}
           </span>
         </div>

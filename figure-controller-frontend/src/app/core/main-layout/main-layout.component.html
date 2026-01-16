@@ -44,7 +44,7 @@
       <!-- Last Updated -->
       <div class="hidden md:block text-right">
         <p class="text-xs text-gray-500">Last updated</p>
-        <p class="text-sm font-medium text-[#003D5C]">{{ currentTime | date: 'medium' }}</p>
+        <p class="text-sm font-medium text-[#003D5C]">{{ yesterdayMidnight  | date: 'medium' }}</p>
       </div>
     </header>
 
@@ -65,9 +65,9 @@
 
 <!-- LOGOUT CONFIRM MODAL -->
 <div *ngIf="showLogoutConfirm"
-     class="fixed inset-0 z-[1000] flex items-center justify-center bg-black/40">
+     class="fixed inset-0 z-[1000] flex items-center justify-center bg-black/40 px-4">
 
-  <div class="bg-white rounded-xl shadow-xl w-96 p-6 text-center">
+  <div class="bg-white rounded-xl shadow-xl w-full max-w-sm p-6 text-center">
     <h3 class="text-lg font-semibold text-gray-800 mb-2">
       Confirm Logout
     </h3>
@@ -91,6 +91,7 @@
     </div>
   </div>
 </div>
+
 
 
 <!-- LOGGING OUT OVERLAY -->

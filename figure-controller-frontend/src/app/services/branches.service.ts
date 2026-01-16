@@ -10,6 +10,16 @@ export interface BranchAccumulatedPerformanceDTO {
   accumulatedGwp: number;
 }
 
+export interface GetAllBranchesFromDaily {
+  branchCode: string;
+  branchName: string;
+}
+
+export interface MonthWiseRegionGwpDTO {
+  month: number;
+  monthlyGwp: number;
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +40,13 @@ export class BranchesService {
     return this.http.get<BranchAccumulatedPerformanceDTO[]>(`${this.API_Url}/getTop10AccumulatedBranchesFromDaily`);
   }
 
+  getAllBranchesFromDaily(): Observable<GetAllBranchesFromDaily[]> {
+    return this.http.get<GetAllBranchesFromDaily[]>(`${this.API_Url}/getAllBranchesFromDaily`);
+  }
+
+  getMonthWiseBranchGwp(branchCode: string, year: number) : Observable<MonthWiseRegionGwpDTO[]> {
+    let params = new HttpParams().set('branchCode', branchCode).set('year', year);
+    return this.http.get<MonthWiseRegionGwpDTO[]>(`${this.API_Url}/getMonthWiseBranchGwp`, { params });
+  }
 
 }
-

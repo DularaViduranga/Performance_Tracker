@@ -28,6 +28,10 @@ export class MainLayoutComponent implements OnInit {
   showLogoutConfirm = false;
   isLoggingOut = false;
 
+  yesterdayMidnight: Date = new Date(
+    new Date().setDate(new Date().getDate() - 1)
+  );
+
   private tabNames: Record<string, string> = {
     performance: 'Performance Overview',
     gwp: 'Gross Written Premium',
@@ -63,6 +67,8 @@ export class MainLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.yesterdayMidnight.setHours(0, 0, 0, 0);
     this.updateFromRoute();
 
     this.router.events
@@ -103,6 +109,30 @@ export class MainLayoutComponent implements OnInit {
 
     if (url === '/my-underwriters') {
       this.pageTitle = 'Sales Officers Attached To You';
+      this.activeTab = '';
+      return;
+    }
+
+    if (url === '/monthly-region-gwp') {
+      this.pageTitle = 'Regions';
+      this.activeTab = '';
+      return;
+    }
+
+    if (url === '/monthly-branch-gwp') {
+      this.pageTitle = 'Branches';
+      this.activeTab = '';
+      return;
+    }
+
+    if (url.startsWith('/region-monthly-detail')) {
+      this.pageTitle = 'Region Monthly GWP Details';
+      this.activeTab = '';
+      return;
+    }
+
+    if (url.startsWith('/branch-monthly-detail')) {
+      this.pageTitle = 'Branch Monthly GWP Details';
       this.activeTab = '';
       return;
     }

@@ -38,7 +38,7 @@ export class MyUnderwritersPageComponent {
   tableConfig: TableConfig = {
         columns: [
         { key: 'sfcCode', header: 'Sfc Code', sortable: true },
-        { key: 'sfcName', header: 'Sfc Name', sortable: true },
+        { key: 'sfcName', header: 'Sfc Name', sortable: true},
         { key: 'brnName', header: 'Branch', sortable: true }
         ],
         showPagination: false,
@@ -92,6 +92,7 @@ export class MyUnderwritersPageComponent {
     private authService: AuthService,
     private dialog: MatDialog
   ) {}
+
 
   ngOnInit() {
     // Initialize with current month

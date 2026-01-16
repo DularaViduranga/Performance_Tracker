@@ -18,6 +18,11 @@ export interface RegionsWithGWPDTO {
   accumulatedGwp: number;
 }
 
+export interface MonthWiseRegionGwpDTO {
+  month: number;
+  monthlyGwp: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -41,6 +46,11 @@ export class RegionService {
 
   getTop3AccumulatedRegionsFromDaily(): Observable<RegionsWithGWPDTO[]> {
     return this.http.get<RegionsWithGWPDTO[]>(`${this.API_Url}/getTop3AccumulatedRegionsFromDaily`);
+  }
+
+  getMonthWiseRegionGwp(regionCode: string, year: number) : Observable<MonthWiseRegionGwpDTO[]> {
+    let params = new HttpParams().set('regionCode', regionCode).set('year', year);
+    return this.http.get<MonthWiseRegionGwpDTO[]>(`${this.API_Url}/getMonthWiseRegionGwp`, { params });
   }
 
 }

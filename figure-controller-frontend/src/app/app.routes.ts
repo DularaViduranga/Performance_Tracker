@@ -15,6 +15,10 @@ import { SalesOfficersOnBranchPageComponent } from './pages/sales-officers-on-br
 import { Testing1Component } from './pages/my-renewal-page/testing/testing1/testing1.component';
 import { RagionsPageComponent } from './pages/ragions-page/ragions-page.component';
 import { authGuard } from './core/guards/auth.guard';
+import { MonthlyRegionGwpPageComponent } from './pages/monthly-region-gwp-page/monthly-region-gwp-page.component';
+import { MonthlyBranchGwpPageComponent } from './pages/monthly-branch-gwp-page/monthly-branch-gwp-page.component';
+import { RegionMonthlyDetailComponent } from './pages/region-monthly-detail/region-monthly-detail.component';
+import { BranchMonthlyDetailComponent } from './pages/branch-monthly-detail/branch-monthly-detail.component';
 
 export const routes: Routes = [
   // Public: Login (no layout)
@@ -49,18 +53,21 @@ export const routes: Routes = [
       { path: 'my-ren', component: MyRenewalPageComponent },
       { path: 'my-performance', component: MyAchievementPageComponent },
       { path: 'my-underwriters', component: MyUnderwritersPageComponent },
-      { path: 'my-branches', component: BranchesPageComponent ,title: 'Branch Overview' },
-      { path: 'regions', component: RagionsPageComponent ,title: 'Regions Overview'},
+      { path: 'my-branches', component: BranchesPageComponent  },
+      { path: 'regions', component: RagionsPageComponent },
       {
         path: 'region-branches/:regionCode/:regionName',
-        component: BranchesPageComponent,
-        title: 'Region Branches'// or just remove the prerender flag
+        component: BranchesPageComponent
       },
       { path: 'sales-officers-on-branch/:branchCode/:branchName',
-        component: SalesOfficersOnBranchPageComponent ,
-        title: 'Sales Officers Overview'  // or just remove the prerender flag
+        component: SalesOfficersOnBranchPageComponent 
       },
       { path: 'renewal-test-page', component: Testing1Component },
+
+      { path: 'monthly-region-gwp', component: MonthlyRegionGwpPageComponent },
+      { path: 'monthly-branch-gwp', component: MonthlyBranchGwpPageComponent },
+      { path: 'region-monthly-detail/:regionCode/:year', component: RegionMonthlyDetailComponent },
+      { path: 'branch-monthly-detail/:branchCode/:year', component: BranchMonthlyDetailComponent },
 
       // Fallback inside layout
       { path: '**', redirectTo: 'dashboard' }

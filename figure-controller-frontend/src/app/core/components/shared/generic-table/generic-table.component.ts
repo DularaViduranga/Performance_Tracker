@@ -75,9 +75,9 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.displayedColumns = this.config.columns.map(col => col.key);
-    if (this.config.rowActions?.length) {
-      this.displayedColumns.push('actions');
-    }
+    // if (this.config.rowActions?.length) {
+    //   this.displayedColumns.push('actions');
+    // }
     this.dataSource.data = this.data;
   }
 

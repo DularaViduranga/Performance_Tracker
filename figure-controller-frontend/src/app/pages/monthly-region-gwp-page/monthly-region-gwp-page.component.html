@@ -1,0 +1,13 @@
+<div class="p-8">
+      <h1 class="text-3xl font-bold text-[#003D5C] mb-8">Monthly Region GWP Performance</h1>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div
+          *ngFor="let region of regions"
+          (click)="viewRegionDetails(region.regionCode)"
+          class="bg-white rounded-xl shadow-md border border-slate-200 p-6 cursor-pointer hover:shadow-xl hover:border-indigo-300 transition-all"
+        >
+          <h3 class="text-xl font-bold text-slate-800 mb-2">{{ region.regionName }}</h3>
+          <p class="text-sm text-slate-500 mb-4">{{ region.regionCode }}</p>
+        </div>
+      </div>
+    </div>

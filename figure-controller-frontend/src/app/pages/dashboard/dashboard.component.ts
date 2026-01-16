@@ -41,6 +41,8 @@ export class DashboardComponent implements OnInit {
   islandTarget: number = 7500000000; // 7.5 Billion LKR - fixed
   isGmOrCeo = false;
 
+  isSalesOfficer = false;
+
   // New: Top performers
   topRegions: { name: string; currentMonthGwp: number; accumulatedGwp: number }[] = [];
   topBranches: { name: string; currentMonthGwp: number; accumulatedGwp: number }[] = [];
@@ -64,8 +66,11 @@ export class DashboardComponent implements OnInit {
       this.loadIslandAchievedGwp();
       this.loadTopRegions();
       this.loadTopBranches();
+    } else if (role === 'SALES_OFFICER') {
+      this.isSalesOfficer = true;
     }
 
+    this.isSalesOfficer = ['SALES_OFFICER'].includes(role);
     this.isBmOrRm = ['BM', 'RM'].includes(role);
     this.isGmOrCeo = ['GM', 'CEO'].includes(role);
   }

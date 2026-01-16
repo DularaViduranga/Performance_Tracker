@@ -1,31 +1,55 @@
 <div class="space-y-8">
     <section>
       <div class="flex items-center justify-between mb-6">
-        <div>
-          <h1 class="text-3xl font-bold text-[#003D5C] mb-1">Monthly Overview</h1>
-          <p class="text-gray-600">Key performance indicators for {{currentMonth}} {{currentYear}}</p>
-        </div>
+        @if (isSalesOfficer) {
+          <div>
+            <h1 class="text-3xl font-bold text-[#003D5C] mb-1">Monthly Overview</h1>
+            <p class="text-gray-600">Key performance indicators for {{currentMonth}} {{currentYear}}</p>
+          </div>
+        }
+        @else{
+          <div>
+            <h1 class="text-3xl font-bold text-[#003D5C] mb-1">Overview</h1>
+            <p class="text-gray-600">Key performance indicators for {{currentYear}}</p>
+          </div>
+        }
       </div>
       @if (isGmOrCeo) {
         <div class="mb-10">
-          <!-- Grid: 1 column on mobile, 2 columns on md+ screens -->
+
+          <!-- Cards -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-            <!-- Annual Target Card -->
             <app-island-performance-card
               title="Annual Target"
               [amount]="islandTarget"
               variant="target"
             />
 
-            <!-- YTD Achieved Card -->
             <app-island-performance-card
               title="Achieved"
               [amount]="islandAchieved"
               variant="achieved"
             />
           </div>
+
+          <!-- OUTSIDE progress bars -->
+          <div class="mt-3">
+
+            <!-- Amber target line (full width) -->
+            <div class="w-full h-1 bg-amber-500 rounded-full"></div>
+
+            <!-- Green achieved line -->
+            <div class="w-full h-1 bg-gray-200 rounded-full mt-1 overflow-hidden">
+              <div
+                class="h-full bg-emerald-500 transition-all duration-700 ease-out"
+                [style.width.%]="(islandAchieved / islandTarget) * 100">
+              </div>
+            </div>
+
+          </div>
         </div>
       }
+
       @if (isBmOrRm && performanceData) {
         <div class="mb-8">
           <app-performance-card [data]="performanceData!" />
@@ -44,7 +68,7 @@
         @if (topRegions.length > 0) {
           <div>
             <app-top-performers-table
-              title="Top 3 Regions - YTD Performance"
+              title="Top 3 Regions - Performance"
               [data]="topRegions"
               [rankStart]="1"
             />
@@ -55,7 +79,7 @@
         @if (topBranches.length > 0) {
           <div>
             <app-top-performers-table
-              title="Top 10 Branches - YTD Performance"
+              title="Top 10 Branches - Performance"
               [data]="topBranches"
               [rankStart]="1"
             />
